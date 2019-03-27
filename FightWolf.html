@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>打灰太狼</title>
+		<link rel="stylesheet" type="text/css" href="FightWolf.css"/>
+	</head>
+	<body>
+		<div class="main_page">
+			<img src="img/progress.png" class="time"/>
+			<img src="img/game_bg.jpg" class="main_img"/>
+			<button class="game_rule">GAME RULE</button>
+			<div class="grades">0</div>
+			<div class="last_max">历史最高分：</div>
+		</div>
+		<script type="text/javascript">
+			var game_rule=document.querySelector(".game_rule");
+			var main_page=document.querySelector(".main_page");
+			var time=document.querySelector(".time");
+			var grades=document.querySelector(".grades");
+			var last_max=document.querySelector(".last_max");
+			last_max.innerHTML=last_max.innerHTML+window.localStorage.getItem("max_grade");
+			var img_src=["img/h5.png","img/x5.png"];
+			var h_img_src=[
+			"img/h0.png",
+			"img/h1.png",
+			"img/h2.png",
+			"img/h3.png",
+			"img/h4.png",
+			"img/h5.png",
+			"img/h6.png",
+			"img/h7.png",
+			"img/h8.png",
+			"img/h9.png"]
+			var x_img_src=[
+			"img/x0.png",
+			"img/x1.png",
+			"img/x2.png",
+			"img/x3.png",
+			"img/x4.png",
+			"img/x5.png",
+			"img/x6.png",
+			"img/x7.png",
+			"img/x8.png",
+			"img/x9.png"]
+			var img_pos=[
+			{left:95,top:114},
+			{left:185,top:142},
+			{left:14,top:160},
+			{left:100,top:190},
+			{left:197,top:212},
+			{left:15,top:220},
+			{left:116,top:274},
+			{left:204,top:296},
+			{left:27,top:294}]
+			
+			
+			game_rule.onclick=function (){
+				var model=document.createElement("div");
+				model.innerHTML="游戏规则:<br /><br />  打中灰太狼加10分，打中小灰灰减100分。<br/><br/>在规定时间内获取最高分数！"
+				model.className="model";
+				main_page.appendChild(model);
+				
+				model.onclick=function (){
+					model.remove();
+				}
+			}
+		var start_btn=document.createElement("button");
+			start_btn.innerHTML="Game Start!!!";
+			start_btn.className="game_start";
+			main_page.appendChild(start_btn);
+		var time_life,time_img,h_img_time,h_img_time_down,x_img_time,x_img_time_down,h_img_kill,x_img_kill;
+			start_btn.onclick=function (){
+					start_btn.style.display="none";
+					//显示历史最高分
+					
+					//血条下降定时器
+					 time_life=setInterval(function(){
+						var life_width=parseInt(window.getComputedStyle(time).width);
+						time.style.width=life_width-(life_width-0)/120+"px";
+						if(parseInt(time.style.width)<=0){
+							//清除血条下降计时器，游戏结束
+							clearInterval(time_life);
+							//游戏结束
+							clearInterval(time_img);
+							//将最高分数存入本地
+							//提示用户游戏结束
+							alert("游戏结束！！！"+"当前得分："+parseInt(grades.innerHTML)+"历史最高分:"+window.localStorage.getItem("max_grade"));
+							var max_grade=window.localStorage.getItem("max_grade");
+							if(parseInt(max_grade)<parseInt(grades.innerHTML)){
+								window.localStorage.setItem("max_grade",parseInt(grades.innerHTML));
+								last_max.innerHTML="历史最高分："+window.localStorage.getItem("max_grade");
+							}
+						}
+						},1000);
+						//游戏开始，随机位置，随机的动物 ，每个动物都能被点击一次，分数增加，减少。对应动物的动画改变
+					 time_img=setInterval(function(){
+							    var img_index=Math.round(Math.random()*(img_src.length-1));
+								var img_address=Math.round(Math.random()*(img_pos.length-1));
+								var img1=new Image();
+								img1.className="wolf_img";
+								img1.style.top=img_pos[img_address].top+"px";
+								img1.style.left=img_pos[img_address].left+"px";
+								img1.onclick=function (){
+											clearInterval(h_img_time);
+											clearInterval(h_img_time_down);
+											var h_img_kill_index=6;
+											var x_img_kill_index=6;
+											if(img_index==0){
+												grades.innerHTML=parseInt(grades.innerHTML)+100;
+											h_img_kill=setInterval(function(){
+												img1.src=h_img_src[h_img_kill_index];
+												h_img_kill_index++;
+												if(h_img_kill_index>9){
+													img1.remove();
+													clearInterval(h_img_kill);
+												}
+											},50);
+											}
+											if(img_index==1){
+												if(parseInt(grades.innerHTML)>0){
+												grades.innerHTML=parseInt(grades.innerHTML)-100;	
+												}else{
+													grades.innerHTML=0;
+												}
+												x_img_kill=setInterval(function(){
+												img1.src=x_img_src[x_img_kill_index];
+												x_img_kill_index++;
+												if(x_img_kill_index>9){
+													img1.remove();
+													clearInterval(x_img_kill);
+												}
+											},50);
+											}
+										}
+								var h_img_i=0;
+								var x_img_i=0;
+								if(img_index==0){
+								 h_img_time=setInterval(function(){
+										img1.src=h_img_src[h_img_i];
+										main_page.appendChild(img1);
+										h_img_i++;
+										if(h_img_i>5){
+											clearInterval(h_img_time);
+											//缩头动画
+											var h_img_i_down=h_img_i-1;
+											 h_img_time_down=setInterval(function(){
+												img1.src=h_img_src[h_img_i_down];
+												h_img_i_down--;
+												if(h_img_i_down<0){
+													img1.remove();
+													clearInterval(h_img_time_down);
+												}
+											},50);
+										}
+									},50);
+								}
+								if(img_index==1){
+									 x_img_time=setInterval(function(){
+										img1.src=x_img_src[x_img_i];
+										img1.className="wolf_img";
+										main_page.appendChild(img1);
+										x_img_i++;
+										if(x_img_i>5){
+											clearInterval(x_img_time);
+											
+											var x_img_i_down=x_img_i-1;
+											 x_img_time_down=setInterval(function(){
+												img1.src=x_img_src[x_img_i_down];
+												x_img_i_down--;
+												if(x_img_i_down<0){
+													img1.remove();
+													clearInterval(x_img_time_down);
+												}
+											},60);
+										}
+									},60);
+								}
+								
+							},1200)
+							
+					
+					}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,77 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+.main_page {
+	width: 320px;
+	height: 480px;
+	margin: 100px auto;
+	position: relative;
+	cursor: pointer;
+}
+.time {
+	width: 180px;
+	height: 16px;
+	position: absolute;
+	left: 64px;
+	top: 66px;
+}
+.game_rule {
+	width: 150px;
+	height: 40px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -75px;
+	margin-top: 200px;
+	cursor: pointer;
+}
+.game_rule:hover {
+	background-color: burlywood;
+}
+.grades {
+	position: absolute;
+	left: 60px;
+	top: 3px;
+	font-size: 30px;
+	color: red;
+}
+.last_max {
+	position: absolute;
+	left: -308px;
+	top: 0px;
+	font-size: 28px;
+	color: #e53a3a;
+	font-weight: 900;
+}
+.model {
+	width: 320px;
+	height: 480px;
+	margin: 100px auto;
+	padding-top: 166px;
+	color: white;
+	box-sizing: border-box;
+	position: absolute;
+	left: 0px;
+	top: -100px;
+	background-color: rgba(56, 63, 62, 0.5);
+	cursor: pointer;
+}
+.game_start {
+	width: 150px;
+	height: 40px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -75px;
+	margin-top: -20px;
+	cursor: pointer;
+}
+.game_start:hover {
+	background-color: burlywood;
+}
+.wolf_img {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
